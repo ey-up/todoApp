@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Dimensions,
   Image,
+  Alert,
   
 } from 'react-native';
 import {connect, } from 'react-redux';
@@ -21,6 +22,7 @@ const ListPage = (props) => {
   useEffect(() => {
     props.getListFromLocal();
   });
+
 
   const renderItem = ({item}) => (
     <View style={styles.item}>
@@ -40,15 +42,32 @@ const ListPage = (props) => {
       <View style={styles.separatedLine}>
         <TouchableOpacity
           onPress={() => {
-            props.deleteItem(item);
+            Alert.alert(
+              "Delete",
+              "Are you sure",
+              [
+                {
+                  text: "Cancel",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel"
+                },
+                { text: "OK", onPress: () => props.deleteItem(item) }
+              ],
+              { cancelable: false }
+            );
+            
           }}>
           <Image
             source={require('../images/delete.png')}
             style={styles.miniLogo}
           />
         </TouchableOpacity>
-
-        <TouchableOpacity>
+        <TouchableOpacity
+         onPress={() =>{
+          props.navigation.navigate('ChangePage', {item:item});
+          
+         }}
+        >
           <Image
             source={require('../images/refresh.png')}
             style={styles.miniLogo2}
@@ -136,6 +155,4 @@ const mapStateToProps = (state) => {
   return {list};
 };
 
-export default connect(mapStateToProps, {getListFromLocal, deleteItem})(
-  ListPage,
-);
+export default connect(mapStateToProps, {getListFromLocal, deleteItem})( ListPage);

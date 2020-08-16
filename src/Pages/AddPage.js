@@ -1,26 +1,26 @@
 import {Input, MyButton} from '../Components';
 import React, {useState} from 'react';
-import {connect,} from 'react-redux';
+import {connect} from 'react-redux';
 import {updateList} from '../actions/index';
-import {
-  View,
-} from 'react-native';
+import {View, Alert} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const AddPage = (props) => {
-  const [topic, setTopic] = useState();
-  const [definition, setDef] = useState();
+  const [topic, setTopic] = useState('');
+  const [definition, setDef] = useState('');
 
   return (
+    <SafeAreaView style={{flex: 1}}>
     <View style={{flex: 1, flexDirection: 'column', backgroundColor: 'white'}}>
       <Input
         placeholder="Topic"
-        style={{marginTop: 10}}
+        style={{marginTop: 20}}
         value={topic}
         onChangeText={(value) => setTopic(value)}
       />
       <Input
         placeholder="Definition"
-        style={{marginTop: 10}}
+        style={{marginTop: 11}}
         value={definition}
         onChangeText={(value) => setDef(value)}
       />
@@ -30,20 +30,29 @@ const AddPage = (props) => {
           let obj = {
             topic: topic,
             definition: definition,
-            size: props.sayi,
+            size: props.count,
           };
-
-          props.updateList(obj);
-          props.navigation.navigate('ListPage');
+          if (topic != '' && definition != '') {
+            props.updateList(obj);
+            props.navigation.navigate('ListPage');
+          } else {
+            Alert.alert(
+              'Error',
+              'you shall not pass with empty area',
+              [{text: 'OK'}],
+              {cancelable: false},
+            );
+          }
         }}
       />
     </View>
+    </SafeAreaView>
   );
 };
 
 const mapStateToProps = (state) => {
-  const {list, sayi} = state.listResponse;
-  return {list, sayi};
+  const {list, count} = state.listResponse;
+  return {list, count};
 };
 
 export default connect(mapStateToProps, {updateList})(AddPage);
