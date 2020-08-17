@@ -28,15 +28,12 @@ const ListPage = (props) => {
     <View style={styles.item}>
       <View style={{flexDirection: 'column', flex: 0.7}}>
         <View style={{flexDirection: 'row'}}>
-          <Image
-            source={require('../images/user.png')}
-            style={styles.miniLogo}
-          />
+         
           <Text style={styles.topic}>{item.topic}</Text>
         </View>
 
         <Text style={styles.definition}>{item.definition}</Text>
-        <Text>{item.size}</Text>
+        {/*<Text>{item.size}</Text> */}
       </View>
 
       <View style={styles.separatedLine}>
@@ -62,6 +59,7 @@ const ListPage = (props) => {
             style={styles.miniLogo}
           />
         </TouchableOpacity>
+        <Text> {item.date} </Text>
         <TouchableOpacity
          onPress={() =>{
           props.navigation.navigate('ChangePage', {item:item});
@@ -124,13 +122,16 @@ const styles = StyleSheet.create({
   },
   topic: {
     paddingRight: 25,
-    paddingLeft: 7,
+    paddingLeft: 15,
+    fontWeight:'bold',
     fontSize: 15,
   },
   definition: {
     fontSize: 17,
-    paddingRight: 25,
-    paddingLeft: 25,
+    marginTop:15,
+    marginBottom:15,
+    paddingRight: 23,
+    paddingLeft: 23,
   },
   miniLogo: {
     height: 21,

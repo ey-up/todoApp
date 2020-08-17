@@ -27,7 +27,7 @@ export default (state = INITIAL_STATE, action) => {
           return e.size;
         })
         .indexOf(action.payload);
-      console.log(pos);
+      
       arr2.splice(pos, 1);
       AsyncStorage.setItem(ADD_LIST_LOCAL, JSON.stringify(arr2));
       return {...state, list: arr2};
